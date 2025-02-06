@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; text-align: center; }
+        #chatbox { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; text-align: left; }
+        input, button { padding: 10px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Flask Chatbot</h1>
+    <div id="chatbox"></div>
+    <input type="text" id="userInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById("userInput").value;
+            const chatbox = document.getElementById("chatbox");
+
+            if (!userInput) return;
+
+            // Display user message
+            chatbox.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
+
+            // Send request to Flask API
+            const response = await fetch("http://127.0.0.1:8000/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user_id: "user123", prompt: userInput })
+            });
+
+            const data = await response.json();
+            chatbox.innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
+
+            document.getElementById("userInput").value = "";  // Clear input
+            chatbox.scrollTop = chatbox.scrollHeight;  // Auto-scroll
+        }
+    </script>
+</body>
+</html>
