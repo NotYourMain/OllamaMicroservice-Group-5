@@ -84,4 +84,3 @@ ollama serve
 8.3 Virtual Environment Not Found
 If your terminal says "command not found" for python, try using python3.
 
-![image](https://github.com/user-attachments/assets/7a2f5fd1-930c-477e-bb43-29f41acff1fe)
