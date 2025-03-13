@@ -1,4 +1,4 @@
-# OllamaMicroservice-Group-3
+# OllamaMicroservice-Group-5
 This project allows our microservice to interact with our LLM and respond to queries. We can get our results either on Postman or on a website.
 
 
@@ -18,12 +18,14 @@ Ollama is needed to run the local LLM. Download it from:
 🔗 https://ollama.com/download
 Once installed, verify by running:
 ollama --version
-1.3 Run Ollama Server
+1.3 Download Ollama Mistral
+Run the code "ollama pull mistral"
+1.4 Run Ollama Server
 After installation, start the Ollama server with:
 ollama serve
 This ensures that Ollama is running in the background.
  
-2. Set Up Python Virtual Environment
+2. Set Up Python Virtual Environment (Optional)
 2.1 Create a Virtual Environment
 Open a terminal and run:
 python -m venv chatbot-env
@@ -40,7 +42,7 @@ Once activated, the terminal prompt will show (chatbot-env), indicating that the
  
 3. Download Chatbot Files
 Download the chatbot files from GitHub:
-📌 GitHub Repository: https://github.com/NotYourMain/OllamaMicroservice-Group-3 
+📌 GitHub Repository: https://github.com/NotYourMain/OllamaMicroservice-Group-5 
 Alternatively, clone the repository using:
 git clone https://github.com/NotYourMain/OllamaMicroservice-Group-3
 Then navigate into the directory:
@@ -67,7 +69,7 @@ The server should now be running at:
 For API testing, you can use Postman:
 1.	Open Postman
 2.	Create a new POST request to: 
-3.	http://127.0.0.1:5000/chat
+3.	http://127.0.0.1:8000/chat
 4.	In the Body tab, select raw and set type to JSON, then enter: 
 5.	{
 6.	    "message": "Hello, how are you?"
