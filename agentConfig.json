@@ -1,0 +1,21 @@
+{
+    "datacenter": "dc1",
+    "node_name": "node2",
+    "server": false,
+    "bootstrap": false, 
+    "bind_addr": "172.20.10.5",
+    "advertise_addr": "172.20.10.5",
+    "data_dir": "C:/consul amd64/data",
+    "ports": {
+      "http": 8500,
+      "dns": 8600,
+      "serf_lan": 8301,
+      "serf_wan": 8302
+    },
+    "log_level": "DEBUG",
+    "ui_config": {
+    "enabled": true
+  }
+  }
+ 
+  

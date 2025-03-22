@@ -21,20 +21,6 @@ def register_service(name, address, port):
 def deregister_service(name):
     consul_client.agent.service.deregister(name)
 
-# Get a service instance from Consul
-
-# Might use this later
-# def get_service_instance(name):
-#     services = consul_client.agent.services()
-#     for service_id, service in services.items():
-#         if service.get("Service") == name:
-#             address = service.get("Address")
-#             port = service.get("Port")
-#             url = f"http://{address}:{port}"
-#             print(f"URL: {url}")
-#             return url
-#     return None
-
 # Register a microservice with the service registry
 @app.route('/register', methods=['POST'])
 def register_microservice():
@@ -50,8 +36,6 @@ def register_microservice():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-deregister_service("Trial14")
-
 # Get a list of registered microservices
 @app.route('/microservices', methods=['GET'])
 def get_microservices():
@@ -66,7 +50,7 @@ def get_microservices():
             })
     return jsonify({"microservices": microservices})
 
-# Send a request to a microservice
+# Send a request to another microservice
 @app.route('/request', methods=['POST'])
 def send_request():
     try:
@@ -75,7 +59,7 @@ def send_request():
         request_data = data.get('data')
         if not name or not request_data:
             return jsonify({'error': 'Name and data required'}), 400
-        url = "http://localhost:8000/chat"
+        url = "http://localhost:8000/chat" #The URL of the microservice to which the request will be sent
         if not url:
             return jsonify({'error': 'Microservice not found'}), 404
         try:
@@ -88,6 +72,35 @@ def send_request():
             return jsonify({'error': str(e)}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+# Send a message to another microservice
+
+
+# Service name of the receiver microservice
+receiver_service_name = "receiver-service" # Replace with the actual service name once registered on consul with other device
+
+@app.route('/send_message', methods=['POST'])
+def send_message():
+    # Find the receiver microservice instance
+    receiver_instance = consul_client.agent.service(receiver_service_name)
+
+    # Get the receiver microservice URL
+    receiver_url = f"http://{receiver_instance['Address']}:{receiver_instance['Port']}"
+
+    # Send a message to the receiver microservice
+    message = {"message": "Hi, Can you see this message?!"} #Message to be sent
+    response = requests.post(f"{receiver_url}/receive_message", json=message)
+
+    return jsonify({'message': 'Message sent successfully!'})
+
+# Receive a message from another microservice
+@app.route('/receive_message', methods=['POST'])
+def receive_message():
+    message = request.get_json()
+    print(f"Received message: {message}")
+
+    return jsonify({'message': 'Message received successfully!'})
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
